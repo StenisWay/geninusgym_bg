@@ -1,8 +1,13 @@
 package android.bean;
 
-import java.security.Timestamp;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
-public class BuyLessonDetail {
+
+public class OrderDetail implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 	private int od_id;
 	private String m_id;
 	private int or_id;
@@ -13,6 +18,7 @@ public class BuyLessonDetail {
 	private Timestamp od_ed_time;
 	private Integer cl_id;
 	private Timestamp od_update_time;
+	
 	public int getOd_id() {
 		return od_id;
 	}

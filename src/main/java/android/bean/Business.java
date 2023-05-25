@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 
 public class Business implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private String b_id;
 	private String b_pwd;
 	private String b_name;
@@ -18,8 +20,9 @@ public class Business implements Serializable{
 	private Timestamp b_modi_time;
 	private String b_modi_id;
 	private String b_email;
-	private String bh_id;
+	private Integer bh_id;
 	private Boolean b_sus;
+	
 	public String getB_id() {
 		return b_id;
 	}
@@ -92,10 +95,11 @@ public class Business implements Serializable{
 	public void setB_email(String b_email) {
 		this.b_email = b_email;
 	}
-	public String getBh_id() {
+
+	public Integer getBh_id() {
 		return bh_id;
 	}
-	public void setBh_id(String bh_id) {
+	public void setBh_id(Integer bh_id) {
 		this.bh_id = bh_id;
 	}
 	public Boolean getB_sus() {

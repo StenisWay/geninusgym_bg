@@ -1,10 +1,11 @@
 package android.bean;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Coach implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String c_id;
 	private String c_pwd;
@@ -21,7 +22,14 @@ public class Coach implements Serializable{
 	private String c_intro;
 	private Boolean c_sus;
 	private byte[] c_pic;
+	private Integer bh_id;
 	
+	public Integer getBh_id() {
+		return bh_id;
+	}
+	public void setBh_id(Integer bh_id) {
+		this.bh_id = bh_id;
+	}
 	public String getC_id() {
 		return c_id;
 	}
