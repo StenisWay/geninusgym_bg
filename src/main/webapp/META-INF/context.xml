@@ -3,9 +3,9 @@
 
 	<Resource name="jdbc/example" type="javax.sql.DataSource"
 		driverClassName="com.mysql.cj.jdbc.Driver"
-		jdbcUrl="jdbc:mysql://localhost:3306/EXAMPLE" 
+		jdbcUrl="jdbc:mysql://localhost:3306/THP101" 
 		username="root"
-		password="password" 
+		password="gIf55663" 
 		factory="com.zaxxer.hikari.HikariJNDIFactory"
 		dataSource.cachePrepStmts="true" 
 		dataSource.prepStmtCacheSize="250"

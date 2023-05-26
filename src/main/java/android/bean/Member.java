@@ -20,7 +20,7 @@ public class Member implements Serializable{
 	private Timestamp m_modi_time;
 	private String b_id;
 	private String m_email;
-	private Byte[] m_pic;
+	private byte[] m_pic;
 	private Boolean m_sus;
 	
 	public String getM_id() {
@@ -95,10 +95,10 @@ public class Member implements Serializable{
 	public void setM_email(String m_email) {
 		this.m_email = m_email;
 	}
-	public Byte[] getM_pic() {
+	public byte[] getM_pic() {
 		return m_pic;
 	}
-	public void setM_pic(Byte[] m_pic) {
+	public void setM_pic(byte[] m_pic) {
 		this.m_pic = m_pic;
 	}
 	public Boolean getM_sus() {
