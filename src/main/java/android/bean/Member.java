@@ -2,6 +2,7 @@ package android.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 
 public class Member implements Serializable{
@@ -9,6 +10,13 @@ public class Member implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String m_id;
+	@Override
+	public String toString() {
+		return "Member [m_id=" + m_id + ", m_pwd=" + m_pwd + ", m_name=" + m_name + ", m_gen=" + m_gen + ", m_cell="
+				+ m_cell + ", m_twid=" + m_twid + ", m_addr=" + m_addr + ", m_ed_date=" + m_ed_date + ", m_add_time="
+				+ m_add_time + ", m_modi_time=" + m_modi_time + ", b_id=" + b_id + ", m_email=" + m_email
+				+ ", m_picBase64=" + m_picBase64 + ", m_pic=" + Arrays.toString(m_pic) + ", m_sus=" + m_sus + "]";
+	}
 	private String m_pwd;
 	private String m_name;
 	private Integer m_gen;
@@ -20,6 +28,7 @@ public class Member implements Serializable{
 	private Timestamp m_modi_time;
 	private String b_id;
 	private String m_email;
+	private String m_picBase64;
 	private byte[] m_pic;
 	private Boolean m_sus;
 	
@@ -106,6 +115,12 @@ public class Member implements Serializable{
 	}
 	public void setM_sus(Boolean m_sus) {
 		this.m_sus = m_sus;
+	}
+	public String getM_picBase64() {
+		return m_picBase64;
+	}
+	public void setM_picBase64(String m_picBase64) {
+		this.m_picBase64 = m_picBase64;
 	}
 	
 	
