@@ -20,14 +20,6 @@ import Dao.MemberDao;
 import android.bean.Member;
 
 public class MemberDaoImpl implements MemberDao {
-
-	public static void main(String[] args) {
-		MemberDao dao = new MemberDaoImpl();
-		Member member = new Member();
-		member.setB_id("R05221016");
-		member.setM_name("HaHaPoint");
-		dao.updateById(member);
-	}
 	
 	private DataSource ds;
 	public MemberDaoImpl(){
@@ -36,7 +28,16 @@ public class MemberDaoImpl implements MemberDao {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
+		
 	}
+	public static void main(String[] args) {
+		MemberDao dao = new MemberDaoImpl();
+		Member member = new Member();
+		member.setB_id("R05221016");
+		member.setM_name("HaHaPoint");
+		dao.updateById(member);
+	}
+	
 
 	@Override
 	public int insert(Member member) {
@@ -130,6 +131,7 @@ public class MemberDaoImpl implements MemberDao {
 			sql.append(field + " =?,");
 		}
 		sql.append("m_modi_time = NOW() WHERE m_id = ?;");
+		System.out.println(sql.toString());
 		try (
 			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString())
@@ -138,6 +140,7 @@ public class MemberDaoImpl implements MemberDao {
 			for (Object value : fieldMap.values()) {
 				if (value instanceof String) {
 					pstmt.setString(position, (String) value);
+					System.out.println(position + (String) value);
 				} else if (value instanceof Integer) {
 					pstmt.setInt(position, (Integer) value);
 				} else if (value instanceof Timestamp) {
@@ -149,6 +152,7 @@ public class MemberDaoImpl implements MemberDao {
 				}
 				position++;
 			}
+			pstmt.setString(position++,(String) fieldMap.get("m_id"));
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -178,6 +182,27 @@ public class MemberDaoImpl implements MemberDao {
 				member.setM_email(rs.getString("m_email"));
 				member.setM_pic(rs.getBytes("m_pic"));
 				member.setM_sus(rs.getBoolean("m_sus"));
+
+				list.add(member);
+			}
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public List<Member> selectIdName() {
+		String sql = "SELECT m_id, m_name FROM MEMBER";
+		List<Member> list =  new ArrayList<>();
+		try (Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();) {
+			while (rs.next()) {
+				Member member = new Member();
+				member.setM_id(rs.getString("m_id"));
+				member.setM_name(rs.getString("m_name"));
 
 				list.add(member);
 			}
