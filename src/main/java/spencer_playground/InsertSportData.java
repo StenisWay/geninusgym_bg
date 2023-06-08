@@ -1,0 +1,38 @@
+package spencer_playground;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import Dao.SportDataDao;
+import DaoImpl.SportDataDaoImpl;
+import android.bean.SportData;
+
+@WebServlet("/IsertSportData")
+public class InsertSportData extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final Gson Gson = new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").setLenient().create();
+	private static final SportDataDao SportDataDaoImpl = new SportDataDaoImpl();
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Type sportDataType = new TypeToken<List<SportData>>() {}.getType();
+		String json = req.getReader().readLine();
+		List<SportData> sportDataList= Gson.fromJson(json, sportDataType);
+		
+		Integer a =0;
+		for(SportData sportData: sportDataList) {
+			System.out.println(sportData.getSc_weigt());
+			a = a +SportDataDaoImpl.insert(sportData);
+		}
+		resp.getWriter().write(a.toString());
+	}
+}

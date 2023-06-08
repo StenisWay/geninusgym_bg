@@ -1,8 +1,6 @@
 package spencer_playground;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,11 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import Dao.BodyDataDao;
-import Dao.MemberDao;
 import DaoImpl.BodyDataDaoImpl;
-import DaoImpl.MemberDaoImpl;
 import android.bean.BodyData;
-import android.bean.Member;
 
 @WebServlet("/GetMemberStatic")
 public class GetMemberStatic extends HttpServlet {
