@@ -1,6 +1,7 @@
 package ServiceImpl;
 
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.List;
 
 import Dao.MemberDao;
@@ -58,9 +59,10 @@ public class MemberServiceImpl implements MemberService{
 		if(m_email == null) {
 			return false;
 		}
-		byte[] m_pic = member.getM_pic();
-		if(m_pic == null) {
-			return false;
+		String base64 = member.getM_picBase64();
+		if(base64 != null && !base64.isEmpty()) {
+			byte[] pic = Base64.getDecoder().decode(base64);
+			member.setM_pic(pic);
 		}
 		
 		return dao.insert(member) >= 1 ;
@@ -69,6 +71,27 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<Member> findAll() {
 		return dao.selectAll();
+	}
+
+	@Override
+	public boolean editSuspend(Member member) {
+		boolean sus = member.getM_sus();
+		if(sus == true) {
+			member.setM_sus(false);
+		}
+		int result = dao.unRegisterById(member.getM_id());
+		return result > 0;
+	}
+
+	@Override
+	public boolean editMember(Member member) {
+		String base64 = member.getM_picBase64();
+		if(base64 != null && !base64.isEmpty()) {
+			byte[] pic = Base64.getDecoder().decode(base64);
+			member.setM_pic(pic);
+		}
+		int result = dao.updateById(member);
+		return result > 0;
 	}
 
 

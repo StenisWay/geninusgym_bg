@@ -25,7 +25,7 @@ import android.bean.Member;
 public class MemberController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private static final Gson gson = new GsonBuilder()
-			.setDateFormat("yyyy/MM/dd HH:mm:ss")
+			.setDateFormat("yyyy-MM-dd HH:mm:ss")  //  把/改成-
 			.create();
 	private static final MemberService service = new MemberServiceImpl();
 	
@@ -39,7 +39,9 @@ public class MemberController extends HttpServlet{
 				member.setM_picBase64(picBase64);
 				member.setM_pic(null);
 			});
+			//System.out.println(list);
 			resp.getWriter().write(gson.toJson(list));
+			
 		}else {
 			pathInfo = pathInfo.substring(1);
 			String[] pathVariables = pathInfo.split("/");
@@ -61,18 +63,10 @@ public class MemberController extends HttpServlet{
 		}
 	}
 
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("123321123321123123");
-		System.out.println("123321123321123123");
-
-		System.out.println("123321123321123123");
-
-		System.out.println("123321123321123123");
-
 		Member member = gson.fromJson(req.getReader(), Member.class);
-		System.out.println(member);
+		//System.out.println(member);
 		boolean result = service.register(member);
 		JsonObject respbody = new JsonObject();
 		respbody.addProperty("successful", result);
@@ -80,10 +74,36 @@ public class MemberController extends HttpServlet{
 		respbody.addProperty("message", message);
 		resp.getWriter().write(respbody.toString());	
 		
-		
+		System.out.println(message);
 	}
 	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Member member = gson.fromJson(req.getReader(), Member.class);
+		//System.out.println(member);
+		boolean result = service.editMember(member);
+		JsonObject respbody = new JsonObject();
+		respbody.addProperty("successful", result);
+		String message = "修改"+ (result ? "成功":"失敗");
+		respbody.addProperty("message", message);
+		resp.getWriter().write(respbody.toString());
+		
+		//System.out.println(message);
+	}
 	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Member member = gson.fromJson(req.getReader(), Member.class);
+		//System.out.println(member);
+		boolean result = service.editSuspend(member);
+		JsonObject respbody = new JsonObject();
+		respbody.addProperty("successful", result);
+		String message = "停權"+ (result ? "成功":"失敗");
+		respbody.addProperty("message", message);
+		resp.getWriter().write(respbody.toString());
+		
+		//System.out.println(message);
+	}
 	
 	
 	

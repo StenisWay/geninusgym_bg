@@ -10,7 +10,9 @@ public interface MemberService {
 	
 	boolean register(Member member);
 	
+	boolean editMember(Member member);
 	
+	boolean editSuspend(Member member);
 	
 	
 	List<Member> findAll();
