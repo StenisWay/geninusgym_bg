@@ -12,21 +12,25 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import Dao.MemberDao;
+import Dao.SportCatDao;
 import DaoImpl.MemberDaoImpl;
+import DaoImpl.SportCatDaoImpl;
 import android.bean.Member;
+import android.bean.SportCat;
 
 
 @WebServlet("/test_for_memberDAO")
 public class test_for_memberDAO extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Gson Gson = new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create();
-	private static final MemberDao memberDaoImple = new MemberDaoImpl();
+	private static final SportCatDao SportCatDaoImple = new SportCatDaoImpl();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Member member = Gson.fromJson(req.getReader(), Member.class);
-		int result = memberDaoImple.updateById(member);
+		SportCat sportCat = Gson.fromJson(req.getReader(), SportCat.class);
+		//String id = req.getReader().readLine();
+		int result = SportCatDaoImple.update(sportCat);
 		JsonObject resBody = new JsonObject();
-		resBody.addProperty("redult", result);
+		resBody.addProperty("result", result);
 		resp.getWriter().write(resBody.toString());
 	}
 }
