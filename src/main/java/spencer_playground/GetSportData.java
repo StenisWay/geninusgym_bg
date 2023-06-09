@@ -17,20 +17,20 @@ import Dao.SportDataDao;
 import DaoImpl.SportDataDaoImpl;
 import android.bean.SportData;
 
-@WebServlet("/IsertSportData")
-public class InsertSportData extends HttpServlet {
+@WebServlet("/GetSportData")
+public class GetSportData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Gson Gson = new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").setLenient().create();
 	private static final SportDataDao SportDataDaoImpl = new SportDataDaoImpl();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 插入運動資訊
 		Type sportDataType = new TypeToken<List<SportData>>() {}.getType();
 		String json = req.getReader().readLine();
 		List<SportData> sportDataList= Gson.fromJson(json, sportDataType);
 		
 		Integer a =0;
 		for(SportData sportData: sportDataList) {
-			System.out.println(sportData.getSc_weigt());
 			a = a +SportDataDaoImpl.insert(sportData);
 		}
 		resp.getWriter().write(a.toString());
