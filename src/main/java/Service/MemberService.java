@@ -14,7 +14,6 @@ public interface MemberService {
 	
 	boolean editSuspend(Member member);
 	
-	
 	List<Member> findAll();
 
 }

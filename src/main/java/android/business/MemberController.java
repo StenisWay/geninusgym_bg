@@ -21,7 +21,7 @@ import ServiceImpl.MemberServiceImpl;
 import android.bean.Member;
 
 
-@WebServlet("/business/*")
+@WebServlet("/buMember/*")
 public class MemberController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private static final Gson gson = new GsonBuilder()
@@ -104,15 +104,6 @@ public class MemberController extends HttpServlet{
 		
 		//System.out.println(message);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

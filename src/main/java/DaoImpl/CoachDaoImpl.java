@@ -51,7 +51,7 @@ public class CoachDaoImpl implements CoachDao {
 				+ "c_pic" //大頭貼 c_pic
 				+ "bh_id" //分店 ID bh_id
 				+ "c_add_time" //新增時間 c_add_time
-				+ ")VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+				+ ")VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?,NOW())";
 
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, coach.getC_id());
@@ -65,9 +65,9 @@ public class CoachDaoImpl implements CoachDao {
 			pstmt.setString(9, coach.getB_id());
 			pstmt.setString(10, coach.getC_email());
 			pstmt.setString(11, coach.getC_intro());
-			pstmt.setBoolean(12, coach.getC_sus());
-			pstmt.setBytes(13, coach.getC_pic());
-			pstmt.setInt(14, coach.getBh_id());
+		//	pstmt.setBoolean(12, coach.getC_sus());
+			pstmt.setBytes(12, coach.getC_pic());
+			pstmt.setInt(13, coach.getBh_id());
 
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
