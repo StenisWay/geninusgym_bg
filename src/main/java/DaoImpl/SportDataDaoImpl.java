@@ -57,13 +57,6 @@ public class SportDataDaoImpl implements SportDataDao{
 		return -1;
 	}
 
-	
-
-	@Override
-	public int update(SportData sportData) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public List<SportData> selectAll() {

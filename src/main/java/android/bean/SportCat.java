@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class SportCat implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private Integer sc_id;
 	private Integer sb_id;
 	private String sc_name;
