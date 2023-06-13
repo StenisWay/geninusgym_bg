@@ -77,11 +77,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int unRegisterById(String id) {
-		String sql = "UPDATE member SET m_sus = false, m_modi_time = now() WHERE (m_id = ?);";
+	public int unRegisterById(Member member) {
+		String sql = "UPDATE member SET m_sus = ?, m_modi_time = now() WHERE (m_id = ?);";
 
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setString(1, id);
+			pstmt.setBoolean(1, member.getM_sus());
+			pstmt.setString(2, member.getM_id());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -137,10 +138,10 @@ public class MemberDaoImpl implements MemberDao {
 			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString())
 		) {
-			//System.out.println(sql);
+			System.out.println(sql);
 			int position = 1;
 			for (Object value : fieldMap.values()) {
-				//System.out.println(value);
+				System.out.println(value);
 				if (value instanceof String) {
 					pstmt.setString(position, (String) value);
 				} else if (value instanceof Integer) {

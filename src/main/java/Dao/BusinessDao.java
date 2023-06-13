@@ -7,7 +7,7 @@ import android.bean.Business;
 public interface BusinessDao {
 	int insert(Business business);
 
-	int unRegisterById(String id);// 此不是真實刪除，
+	int unRegisterById(Business business);// 此不是真實刪除，
 
 	int updateById(Business business);
 

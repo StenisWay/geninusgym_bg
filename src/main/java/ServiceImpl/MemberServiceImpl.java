@@ -78,8 +78,10 @@ public class MemberServiceImpl implements MemberService{
 		boolean sus = member.getM_sus();
 		if(sus == true) {
 			member.setM_sus(false);
+		}else {
+			member.setM_sus(true);
 		}
-		int result = dao.unRegisterById(member.getM_id());
+		int result = dao.unRegisterById(member);
 		return result > 0;
 	}
 

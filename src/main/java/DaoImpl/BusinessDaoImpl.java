@@ -37,21 +37,22 @@ public class BusinessDaoImpl implements BusinessDao {
 
 	@Override
 	public int insert(Business business) {
-		String sql = "INSERT INTO member (" + "b_id" // 員工 ID b_id
-				+ "b_pwd" // 密碼 b_pwd
-				+ "b_name" // 員工姓名 b_name
-				+ "b_gen" // 性別 b_gen
-				+ "b_cell" // 聯絡電話 b_cell
-				+ "b_twid" // 身分證字號 b_twid
-				+ "b_addr" // 住址 b_addr
-				+ "b_start_date" // 入職日期 b_start_date
-				+ "b_modi_id" // 修改人 ( 也是員工 b_modi_id
-				+ "b_email" // email b_email
-				+ "bh_id" // 分店 ID bh_id
-				+ "b_sus" // 是否停權 b_sus
+		String sql = "INSERT INTO business (" + "b_id," // 員工 ID b_id
+				+ "b_pwd," // 密碼 b_pwd
+				+ "b_name," // 員工姓名 b_name
+				+ "b_gen," // 性別 b_gen
+				+ "b_cell," // 聯絡電話 b_cell
+				+ "b_twid," // 身分證字號 b_twid
+				+ "b_addr," // 住址 b_addr
+				+ "b_start_date," // 入職日期 b_start_date
+				+ "b_modi_id," // 修改人 ( 也是員工 b_modi_id
+				+ "b_email," // email b_email
+			//	+ "bh_id," // 分店 ID bh_id
+				+ "bt_name,"
+				+ "b_sus," // 是否停權 b_sus
 				+ "b_add_time" // 新增時間 b_add_time
-				+ ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
-
+				+ ") VALUES(?,?,?,?,?,?,?,?,?,?,?,1,NOW())";
+			
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, business.getB_id());
 			pstmt.setString(2, business.getB_pwd());
@@ -63,9 +64,10 @@ public class BusinessDaoImpl implements BusinessDao {
 			pstmt.setTimestamp(8, business.getB_start_date());
 			pstmt.setString(9, business.getB_modi_id());
 			pstmt.setString(10, business.getB_email());
-			pstmt.setInt(11, business.getBh_id());
-			pstmt.setBoolean(12, business.getB_sus());
-
+			//pstmt.setInt(11, business.getBh_id());
+			pstmt.setString(11, business.getBt_name());
+			//pstmt.setBoolean(12, business.getB_sus());
+			System.out.println(sql);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -75,10 +77,11 @@ public class BusinessDaoImpl implements BusinessDao {
 	}
 
 	@Override
-	public int unRegisterById(String id) {
-		String sql = "UPDATE business SET b_sus = false where b_id = ?";
+	public int unRegisterById(Business business) {
+		String sql = "UPDATE business SET b_sus = ?, b_modi_time = now() where b_id = ?";
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setString(1, id);
+			pstmt.setBoolean(1, business.getB_sus());
+			pstmt.setString(2, business.getB_id());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -89,7 +92,7 @@ public class BusinessDaoImpl implements BusinessDao {
 
 	@Override
 	public int updateById(Business business) {
-		StringBuilder sql = new StringBuilder("UPDATE member SET ");
+		StringBuilder sql = new StringBuilder("UPDATE business SET ");
 		Map<String, Object> fieldMap = new LinkedHashMap<>();
 		if (business.getB_pwd() != null && !business.getB_pwd().isEmpty()) {
 			fieldMap.put("b_pwd", business.getB_pwd());
@@ -112,25 +115,33 @@ public class BusinessDaoImpl implements BusinessDao {
 		if (business.getB_start_date() != null) {
 			fieldMap.put("b_start_date", business.getB_start_date());
 		}
-		if (business.getB_modi_id() != null && !business.getB_modi_id().isEmpty()) {
-			fieldMap.put("b_modi_id", business.getB_modi_id());
-		}
+//		if (business.getB_modi_id() != null && !business.getB_modi_id().isEmpty()) {
+//			fieldMap.put("b_modi_id", business.getB_modi_id());
+//		}
 		if (business.getB_email() != null && !business.getB_email().isEmpty()) {
 			fieldMap.put("b_email", business.getB_email());
 		}
-		if (business.getBh_id() != null) {
-			fieldMap.put("bh_id", business.getBh_id());
-		}
+//		if (business.getBh_id() != null) {
+//			fieldMap.put("bh_id", business.getBh_id());
+//		}
 		if (business.getB_sus() != null) {
 			fieldMap.put("b_sus", business.getB_sus());
 		}
 		fieldMap.put("b_id", business.getB_id());
+		for (String field : fieldMap.keySet()) {
+			if(field.equals("b_id")) {
+				continue;
+			}
+			sql.append(field + " =?,");
+		}
+		
 		sql.append("b_modi_time = NOW() WHERE b_id = ?;");
 		
 		try (
 				Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString())
 			) {
+				System.out.println(sql);
 				int position = 1;
 				for (Object value : fieldMap.values()) {
 					if (value instanceof String) {
@@ -155,15 +166,16 @@ public class BusinessDaoImpl implements BusinessDao {
 
 	@Override
 	public List<Business> selectAll() {
-		String sql = "SELECT * FROM business;";
+		String sql = "SELECT * FROM business order by b_sus desc;";
 		List<Business> list = new ArrayList<>();
-		Business business = new Business();
+		
 		try (
 				Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();
 		){
 			while(rs.next()) {
+				Business business = new Business();
 				business.setB_id(rs.getString("b_id"));
 				business.setB_pwd(rs.getString("b_pwd"));
 				business.setB_name(rs.getString("b_name"));
@@ -174,7 +186,8 @@ public class BusinessDaoImpl implements BusinessDao {
 				business.setB_start_date(rs.getTimestamp("b_start_date"));
 				business.setB_modi_id(rs.getString("b_modi_id"));
 				business.setB_email(rs.getString("b_email"));
-				business.setBh_id(rs.getInt("bh_id"));
+		//		business.setBh_id(rs.getInt("bh_id"));
+				business.setBt_name(rs.getString("bt_name"));
 				business.setB_sus(rs.getBoolean("b_sus"));
 				business.setB_add_time(rs.getTimestamp("b_add_time"));
 				business.setB_modi_time(rs.getTimestamp("b_modi_time"));

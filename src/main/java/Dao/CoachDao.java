@@ -7,7 +7,7 @@ import android.bean.Coach;
 public interface CoachDao {
 	 int insert(Coach coach);
 	 
-	 int unRegisterById(String id);
+	 int unRegisterById(Coach coach);
 	 
 	 int updateById(Coach coach);
 	 

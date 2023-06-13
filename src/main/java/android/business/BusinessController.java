@@ -14,60 +14,58 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import Service.CoachService;
-import Service.MemberService;
-import ServiceImpl.CoachServiceImpl;
-import ServiceImpl.MemberServiceImpl;
+import Service.BusinessService;
+import ServiceImpl.BusinessServiceImpl;
+import android.bean.Business;
 import android.bean.Coach;
-import android.bean.Member;
 
-@WebServlet("/buCoach/*")
-public class CoachController extends HttpServlet {
+@WebServlet("/buBuz/*")
+public class BusinessController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private static final Gson gson = new GsonBuilder()
 			.setDateFormat("yyyy-MM-dd HH:mm:ss")  //  把/改成-
 			.create();
-	private static final CoachService service = new CoachServiceImpl();
+	private static final BusinessService service = new BusinessServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String pathInfo = req.getPathInfo();
 		if(pathInfo == null || pathInfo.equals("/")) {
-			List<Coach> list = service.findAll();
-			list.forEach(coach -> {
-				String picBase64 = Base64.getEncoder().encodeToString(coach.getC_pic());
-				coach.setC_picBase64(picBase64);
-				coach.setC_pic(null);
-			});
+			List<Business> list = service.findAll();
+//			list.forEach(coach -> {
+////				String picBase64 = Base64.getEncoder().encodeToString(coach.getC_pic());
+////				coach.setC_picBase64(picBase64);
+////				coach.setC_pic(null);
+//			});
 			System.out.println(list);
 			resp.getWriter().write(gson.toJson(list));
 			
 		}else {
 			pathInfo = pathInfo.substring(1);
 			String[] pathVariables = pathInfo.split("/");
-			Coach coach = new Coach();
-			coach.setC_id(pathVariables[0]);
-			coach.setC_pwd(pathVariables[1]);
-			if (coach != null) {
+			Business business = new Business();
+			business.setB_id(pathVariables[0]);
+			business.setB_pwd(pathVariables[1]);
+			if (business != null) {
 				if (req.getSession(false) != null) {
 					req.changeSessionId(); // ←產生新的Session ID 避免被別人仿造
 				} // ↓此屬性物件即用來區分是否登入中
-				req.getSession().setAttribute("coach", coach);
+				req.getSession().setAttribute("business", business);
 			}
 			
-			//要加判斷不然沒圖片會壞掉
-			String picBase64 = Base64.getEncoder().encodeToString(coach.getC_pic());
-			coach.setC_picBase64(picBase64);
+//			//要加判斷不然沒圖片會壞掉
+//			String picBase64 = Base64.getEncoder().encodeToString(coach.getC_pic());
+//			coach.setC_picBase64(picBase64);
 			
-			resp.getWriter().write(gson.toJson(coach));
+			resp.getWriter().write(gson.toJson(business));
 		}
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Coach coach = gson.fromJson(req.getReader(), Coach.class);
-		System.out.println(coach);
-		boolean result = service.register(coach);
+		Business business = gson.fromJson(req.getReader(), Business.class);
+		System.out.println(business);
+		boolean result = service.register(business);
 		JsonObject respbody = new JsonObject();
 		respbody.addProperty("successful", result);
 		String message = "新增"+ (result ? "成功":"失敗");
@@ -79,9 +77,9 @@ public class CoachController extends HttpServlet {
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Coach coach = gson.fromJson(req.getReader(), Coach.class);
-		System.out.println(coach);
-		boolean result = service.editCoach(coach);
+		Business business = gson.fromJson(req.getReader(), Business.class);
+		System.out.println(business);
+		boolean result = service.editBusiness(business);
 		JsonObject respbody = new JsonObject();
 		respbody.addProperty("successful", result);
 		String message = "修改"+ (result ? "成功":"失敗");
@@ -93,9 +91,9 @@ public class CoachController extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Coach coach = gson.fromJson(req.getReader(), Coach.class);
-		System.out.println(coach);
-		boolean result = service.editSuspend(coach);
+		Business business = gson.fromJson(req.getReader(), Business.class);
+		System.out.println(business);
+		boolean result = service.editSuspend(business);
 		JsonObject respbody = new JsonObject();
 		respbody.addProperty("successful", result);
 		String message = "停權"+ (result ? "成功":"失敗");
@@ -104,5 +102,5 @@ public class CoachController extends HttpServlet {
 		
 		System.out.println(message);
 	}
-
+	
 }
