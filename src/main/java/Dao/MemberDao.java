@@ -11,4 +11,6 @@ public interface MemberDao {
 	 int updateById(Member member);
 	 
 	 List<Member> selectAll();
+	 
+	 List<Member> selectIdName();
 }

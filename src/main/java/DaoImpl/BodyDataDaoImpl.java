@@ -132,7 +132,7 @@ public class BodyDataDaoImpl implements BodyDataDao {
 
 	@Override
 	public BodyData selectById(String id) {
-		String sql = "SELECT * FROM body_data WHERE bd_id = ?;";
+		String sql = "SELECT * FROM body_data WHERE m_id = ?;";
 		BodyData bodyData = new BodyData();
 		try (
 				Connection conn = ds.getConnection();

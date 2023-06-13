@@ -9,29 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
-import Dao.MemberDao;
-import Dao.SportCatDao;
-import DaoImpl.MemberDaoImpl;
-import DaoImpl.SportCatDaoImpl;
-import android.bean.Member;
-import android.bean.SportCat;
+import Dao.BodyDataDao;
+import DaoImpl.BodyDataDaoImpl;
+import android.bean.BodyData;
 
-
-@WebServlet("/test_for_memberDAO")
-public class test_for_memberDAO extends HttpServlet {
+@WebServlet("/GetMemberStatic")
+public class GetMemberStatic extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Gson Gson = new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create();
-	private static final SportCatDao SportCatDaoImple = new SportCatDaoImpl();
+	private static final BodyDataDao bodyDataDaoImpl = new BodyDataDaoImpl();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		SportCat sportCat = Gson.fromJson(req.getReader(), SportCat.class);
-		//String id = req.getReader().readLine();
-		int result = SportCatDaoImple.update(sportCat);
-		JsonObject resBody = new JsonObject();
-		resBody.addProperty("result", result);
+		String id = Gson.fromJson(req.getReader(), BodyData.class).getM_id();
+		BodyData bodyData = bodyDataDaoImpl.selectById(id);
+		System.out.println(id + bodyData.getM_id());
+		String resBody = Gson.toJson(bodyData);
 		resp.getWriter().write(resBody.toString());
 	}
 }
-
