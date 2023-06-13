@@ -36,7 +36,7 @@ public class SportCatDaoImpl implements SportCatDao {
 				Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);			
 				){
-			pstmt.setInt(1, sportCat.getSb_cat());
+			pstmt.setInt(1, sportCat.getSb_id());
 			pstmt.setString(2, sportCat.getSc_name());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -63,7 +63,7 @@ public class SportCatDaoImpl implements SportCatDao {
 	@Override
 	public int update(SportCat sportCat) {
 		StringBuilder sql = new StringBuilder("UPDATE sport_cat SET ");
-		if(sportCat.getSb_cat() != null) {
+		if(sportCat.getSb_id() != null) {
 			sql.append("`sb_cat` = ?, ");
 		}
 		if(sportCat.getSc_name() != null) {
@@ -75,8 +75,8 @@ public class SportCatDaoImpl implements SportCatDao {
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());			
 				){
 			int position = 1;
-			if(sportCat.getSb_cat() != null) {
-				pstmt.setInt(position, sportCat.getSb_cat());
+			if(sportCat.getSb_id() != null) {
+				pstmt.setInt(position, sportCat.getSb_id());
 				position ++;
 			}
 			if(sportCat.getSc_name() != null) {
@@ -103,7 +103,7 @@ public class SportCatDaoImpl implements SportCatDao {
 				){
 			while(rs.next()) {
 				SportCat item = new SportCat();
-				item.setSb_cat(rs.getInt("sb_cat"));
+				item.setSb_id(rs.getInt("sb_cat"));
 				item.setSc_name(rs.getString("sc_name"));
 				item.setSc_id(rs.getInt("sc_id"));
 				
