@@ -21,6 +21,7 @@ public class Business implements Serializable{
 	private String b_modi_id;
 	private String b_email;
 	private Integer bh_id;
+	private String bt_name;
 	private Boolean b_sus;
 	
 	public String getB_id() {
@@ -107,6 +108,12 @@ public class Business implements Serializable{
 	}
 	public void setB_sus(Boolean b_sus) {
 		this.b_sus = b_sus;
+	}
+	public String getBt_name() {
+		return bt_name;
+	}
+	public void setBt_name(String bt_name) {
+		this.bt_name = bt_name;
 	}
 	
 	

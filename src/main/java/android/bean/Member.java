@@ -2,6 +2,7 @@ package android.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 
 public class Member implements Serializable{
@@ -20,6 +21,7 @@ public class Member implements Serializable{
 	private Timestamp m_modi_time;
 	private String b_id;
 	private String m_email;
+	private String m_picBase64;
 	private byte[] m_pic;
 	private Boolean m_sus;
 	
@@ -106,6 +108,12 @@ public class Member implements Serializable{
 	}
 	public void setM_sus(Boolean m_sus) {
 		this.m_sus = m_sus;
+	}
+	public String getM_picBase64() {
+		return m_picBase64;
+	}
+	public void setM_picBase64(String m_picBase64) {
+		this.m_picBase64 = m_picBase64;
 	}
 	
 	

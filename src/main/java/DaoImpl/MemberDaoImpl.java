@@ -55,7 +55,7 @@ public class MemberDaoImpl implements MemberDao {
 				+ "m_pic,"// 大頭貼 m_pic
 				+ "m_sus, "// 是否停權 m_sus
 				+ "m_add_time)"
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,1,NOW())";
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, member.getM_id());
 			pstmt.setString(2, member.getM_pwd());
@@ -68,7 +68,7 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(9, member.getB_id());
 			pstmt.setString(10, member.getM_email());
 			pstmt.setBytes(11, member.getM_pic());
-			pstmt.setBoolean(12, member.getM_sus());
+			//pstmt.setBoolean(12, member.getM_sus());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -78,11 +78,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int unRegisterById(String id) {
-		String sql = "UPDATE member SET m_sus = false WHERE (m_id = ?)";
+	public int unRegisterById(Member member) {
+		String sql = "UPDATE member SET m_sus = ?, m_modi_time = now() WHERE (m_id = ?);";
 
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setString(1, id);
+			pstmt.setBoolean(1, member.getM_sus());
+			pstmt.setString(2, member.getM_id());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -122,12 +123,15 @@ public class MemberDaoImpl implements MemberDao {
 		if(member.getM_pic()!= null) {
 			fieldMap.put("m_pic", member.getM_pic());
 		}
-		if(member.getM_sus()!= null) {
-			fieldMap.put("m_sus", member.getM_sus());
-		}
+//		if(member.getM_sus()!= null) {
+//			fieldMap.put("m_sus", member.getM_sus());
+//		}
 		fieldMap.put("m_id", member.getM_id());
 		
 		for (String field : fieldMap.keySet()) {
+			if(field.equals("m_id")) {
+				continue;
+			}
 			sql.append(field + " =?,");
 		}
 		sql.append("m_modi_time = NOW() WHERE m_id = ?;");
@@ -136,8 +140,10 @@ public class MemberDaoImpl implements MemberDao {
 			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString())
 		) {
+			System.out.println(sql);
 			int position = 1;
 			for (Object value : fieldMap.values()) {
+				System.out.println(value);
 				if (value instanceof String) {
 					pstmt.setString(position, (String) value);
 					System.out.println(position + (String) value);
@@ -162,7 +168,7 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public List<Member> selectAll() {
-		String sql = "SELECT * FROM MEMBER";
+		String sql = "SELECT * FROM MEMBER order by m_sus desc";
 		List<Member> list =  new ArrayList<>();
 
 		try (Connection conn = ds.getConnection();
@@ -192,6 +198,7 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return null;
 	}
+
 	@Override
 	public List<Member> selectIdName() {
 		String sql = "SELECT m_id, m_name FROM MEMBER";
@@ -213,4 +220,5 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return null;
 	}
+
 }
