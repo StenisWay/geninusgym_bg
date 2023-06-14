@@ -13,17 +13,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import Dao.NotifyDao;
-import Dao.SportBigIdDao;
 import DaoImpl.NotifyDaoImpl;
-import DaoImpl.SportBigIdDaoImpl;
 import android.bean.Notify;
-import android.bean.SportBigId;
 
-@WebServlet("/Test_for_insert")
-public class Test_for_insert extends HttpServlet {
+@WebServlet("/NotifyController")
+public class NotifyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Gson Gson = new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create();
 	private static final NotifyDao notifyDaoImpl = new NotifyDaoImpl();
+	
+	// insert
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Notify notify = Gson.fromJson(req.getReader(), Notify.class);
@@ -33,4 +32,16 @@ public class Test_for_insert extends HttpServlet {
 		resBody.addProperty("result", result);
 		resp.getWriter().write(resBody.toString());
 	}
+	
+	// delete
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Integer nt_id = Gson.fromJson(req.getReader(), Integer.class);
+		int result = notifyDaoImpl.delete(nt_id);
+		JsonObject resBody = new JsonObject();
+		resBody.addProperty("result", result);
+		resp.getWriter().write(resBody.toString());
+	}
 }
+
+
