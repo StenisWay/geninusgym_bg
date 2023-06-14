@@ -12,9 +12,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import Dao.NotifyDao;
 import Dao.SportBigIdDao;
 import Dao.SportCatDao;
-import DaoImpl.SportBigIdDaoImpl;
+import DaoImpl.NotifyDaoImpl;
+import android.bean.Notify;
 import android.bean.SportBigId;
 import android.bean.SportCat;
 
@@ -22,12 +24,12 @@ import android.bean.SportCat;
 public class Test_for_update extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Gson Gson = new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create();
-	private static final SportBigIdDao SportBigIdDaoImpl = new SportBigIdDaoImpl();
+	private static final NotifyDao notifyDaoImpl = new NotifyDaoImpl();
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		SportBigId sportBigId = Gson.fromJson(req.getReader(), SportBigId.class);
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Notify notify = Gson.fromJson(req.getReader(), Notify.class);
 		//String id = req.getReader().readLine();
-		int result = SportBigIdDaoImpl.update(sportBigId);
+		int result = notifyDaoImpl.update(notify);
 		JsonObject resBody = new JsonObject();
 		resBody.addProperty("result", result);
 		resp.getWriter().write(resBody.toString());

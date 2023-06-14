@@ -1,10 +1,6 @@
 package DaoImpl;
 
-import static util.CommonConstants.password;
 import static util.CommonConstants.route;
-import static util.CommonConstants.url;
-import static util.CommonConstants.username;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +18,6 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import Dao.BusinessDao;
 import android.bean.Business;
-import android.bean.Coach;
 
 public class BusinessDaoImpl implements BusinessDao {
 
