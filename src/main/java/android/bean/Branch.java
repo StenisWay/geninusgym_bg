@@ -7,7 +7,7 @@ public class Branch implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Integer bh_id;
-	private String bt_name;
+	private String bh_name;
 	private String bh_addr;
 	private String bh_cell;
 	private String bh_start_time;
@@ -19,11 +19,11 @@ public class Branch implements Serializable{
 	public void setBh_id(Integer bh_id) {
 		this.bh_id = bh_id;
 	}
-	public String getBt_name() {
-		return bt_name;
+	public String getBh_name() {
+		return bh_name;
 	}
-	public void setBt_name(String bt_name) {
-		this.bt_name = bt_name;
+	public void setBh_name(String bh_name) {
+		this.bh_name = bh_name;
 	}
 	public String getBh_addr() {
 		return bh_addr;

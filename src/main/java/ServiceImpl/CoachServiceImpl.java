@@ -68,7 +68,7 @@ public class CoachServiceImpl implements CoachService{
 		if(c_intro == null) {
 			return false;
 		}
-		String c_branch = coach.getBt_name();
+		String c_branch = coach.getBh_name();
 		if(c_branch == null) {
 			return false;
 		}

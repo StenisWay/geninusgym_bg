@@ -48,7 +48,7 @@ public class BusinessDaoImpl implements BusinessDao {
 				+ "b_modi_id," // 修改人 ( 也是員工 b_modi_id
 				+ "b_email," // email b_email
 			//	+ "bh_id," // 分店 ID bh_id
-				+ "bt_name,"
+				+ "bh_name,"
 				+ "b_sus," // 是否停權 b_sus
 				+ "b_add_time" // 新增時間 b_add_time
 				+ ") VALUES(?,?,?,?,?,?,?,?,?,?,?,1,NOW())";
@@ -65,7 +65,7 @@ public class BusinessDaoImpl implements BusinessDao {
 			pstmt.setString(9, business.getB_modi_id());
 			pstmt.setString(10, business.getB_email());
 			//pstmt.setInt(11, business.getBh_id());
-			pstmt.setString(11, business.getBt_name());
+			pstmt.setString(11, business.getBh_name());
 			//pstmt.setBoolean(12, business.getB_sus());
 			System.out.println(sql);
 			return pstmt.executeUpdate();
@@ -187,7 +187,7 @@ public class BusinessDaoImpl implements BusinessDao {
 				business.setB_modi_id(rs.getString("b_modi_id"));
 				business.setB_email(rs.getString("b_email"));
 		//		business.setBh_id(rs.getInt("bh_id"));
-				business.setBt_name(rs.getString("bt_name"));
+				business.setBh_name(rs.getString("bh_name"));
 				business.setB_sus(rs.getBoolean("b_sus"));
 				business.setB_add_time(rs.getTimestamp("b_add_time"));
 				business.setB_modi_time(rs.getTimestamp("b_modi_time"));

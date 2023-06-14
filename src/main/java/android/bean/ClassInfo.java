@@ -14,7 +14,8 @@ public class ClassInfo implements Serializable{
 	private Timestamp ci_ed_time;
 	private String ci_place;
 	private Integer ci_cost;
-	private Timestamp ci_date;
+	private String c_id;   //新增
+	private Timestamp ci_date; 
 	private String ci_text;
 	private Integer ci_limit;
 	private Timestamp ci_add_time;
@@ -22,6 +23,9 @@ public class ClassInfo implements Serializable{
 	private Timestamp ci_regi_time;
 	private Timestamp ci_regi_ed_time;
 	private String b_id;
+	private Integer sc_id;
+	private Boolean ci_avail;  //新增
+	private String bh_name;   //新增
 	
 	public Integer getCi_id() {
 		return ci_id;
@@ -106,6 +110,30 @@ public class ClassInfo implements Serializable{
 	}
 	public void setB_id(String b_id) {
 		this.b_id = b_id;
+	}
+	public String getC_id() {
+		return c_id;
+	}
+	public void setC_id(String c_id) {
+		this.c_id = c_id;
+	}
+	public Integer getSc_id() {
+		return sc_id;
+	}
+	public void setSc_id(Integer sc_id) {
+		this.sc_id = sc_id;
+	}
+	public Boolean getCi_avail() {
+		return ci_avail;
+	}
+	public void setCi_avail(Boolean ci_avail) {
+		this.ci_avail = ci_avail;
+	}
+	public String getBh_name() {
+		return bh_name;
+	}
+	public void setBh_name(String bh_name) {
+		this.bh_name = bh_name;
 	}
 
 	

@@ -63,7 +63,7 @@ public class BusinessServiceImpl implements BusinessService{
 		if(b_email == null) {
 			return false;
 		}
-		String b_branch = business.getBt_name();
+		String b_branch = business.getBh_name();
 		if(b_branch == null) {
 			return false;
 		}
