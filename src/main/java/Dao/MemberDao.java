@@ -6,7 +6,7 @@ import android.bean.Member;
 public interface MemberDao {
 	 int insert(Member member);
 	 
-	 int unRegisterById(String id);// 此不是真實刪除，
+	 int unRegisterById(Member member);// 此不是真實刪除，
 	 
 	 int updateById(Member member);
 	 

@@ -36,22 +36,23 @@ public class CoachDaoImpl implements CoachDao {
 	@Override
 	public int insert(Coach coach) {
 		String sql = "INSERT INTO coach ("
-				+ "c_id" //教練 ID c_id
-				+ "c_pwd" //密碼 c_pwd
-				+ "c_name" //教練名字 c_name
-				+ "c_gen" //性別 c_gen
-				+ "c_cell" //聯絡電話 c_cell
-				+ "c_twid" //身分證字號 c_twid
-				+ "c_addr" //住址 c_addr
-				+ "c_start_date" //入職日期 c_start_date
-				+ "b_id" //修改人 ID b_id
-				+ "c_email" //email c_email
-				+ "c_intro" //註解( 可以打經歷 ) c_intro
-				+ "c_sus" //是否停權 c_sus
-				+ "c_pic" //大頭貼 c_pic
-				+ "bh_id" //分店 ID bh_id
+				+ "c_id," //教練 ID c_id
+				+ "c_pwd," //密碼 c_pwd
+				+ "c_name," //教練名字 c_name
+				+ "c_gen," //性別 c_gen
+				+ "c_cell," //聯絡電話 c_cell
+				+ "c_twid," //身分證字號 c_twid
+				+ "c_addr," //住址 c_addr
+				+ "c_start_date," //入職日期 c_start_date
+				+ "b_id," //修改人 ID b_id
+				+ "c_email," //email c_email
+				+ "c_intro," //註解( 可以打經歷 ) c_intro
+				+ "c_sus," //是否停權 c_sus
+				+ "c_pic," //大頭貼 c_pic
+		//		+ "bh_id" //分店 ID bh_id
+				+ "bt_name,"  //分店名稱 bt_name
 				+ "c_add_time" //新增時間 c_add_time
-				+ ")VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+				+ ")VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?,NOW())";
 
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, coach.getC_id());
@@ -65,9 +66,9 @@ public class CoachDaoImpl implements CoachDao {
 			pstmt.setString(9, coach.getB_id());
 			pstmt.setString(10, coach.getC_email());
 			pstmt.setString(11, coach.getC_intro());
-			pstmt.setBoolean(12, coach.getC_sus());
-			pstmt.setBytes(13, coach.getC_pic());
-			pstmt.setInt(14, coach.getBh_id());
+		//	pstmt.setBoolean(12, coach.getC_sus());
+			pstmt.setBytes(12, coach.getC_pic());
+			pstmt.setString(13, coach.getBt_name());
 
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -77,10 +78,11 @@ public class CoachDaoImpl implements CoachDao {
 	}
 
 	@Override
-	public int unRegisterById(String id) {
-		String sql = "UPDATE coach SET c_sus = false WHERE (c_id = ?)";
+	public int unRegisterById(Coach coach) {
+		String sql = "UPDATE coach SET c_sus = ?, c_modi_time = now() WHERE (c_id = ?);";
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setString(1, id);
+			pstmt.setBoolean(1, coach.getC_sus());
+			pstmt.setString(2, coach.getC_id());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -91,7 +93,7 @@ public class CoachDaoImpl implements CoachDao {
 
 	@Override
 	public int updateById(Coach coach) {
-		StringBuilder sql = new StringBuilder("UPDATE member SET ");
+		StringBuilder sql = new StringBuilder("UPDATE coach SET ");
 		Map<String, Object> fieldMap = new LinkedHashMap<>();
 		if (coach.getC_pwd() != null && !coach.getC_pwd().isEmpty()) {
 			fieldMap.put("c_pwd", coach.getC_pwd());
@@ -123,26 +125,36 @@ public class CoachDaoImpl implements CoachDao {
 		if (coach.getC_intro() != null && !coach.getC_intro().isEmpty()) {
 			fieldMap.put("c_intro", coach.getC_intro());
 		}
-		if (coach.getC_sus() != null) {
-			fieldMap.put("c_sus", coach.getC_sus());
-		}
+//		if (coach.getC_sus() != null) {
+//			fieldMap.put("c_sus", coach.getC_sus());
+//		}
 		if (coach.getC_pic() != null) {
 			fieldMap.put("c_pic", coach.getC_pic());
 		}
 		if (coach.getBh_id() != null)  {
 			fieldMap.put("bh_id", coach.getBh_id());
 		}
-		for (String field : fieldMap.keySet()) {
-			sql.append(field + " =?,");
+		if(coach.getBt_name() != null) {
+			fieldMap.put("bt_name", coach.getBt_name());
 		}
 		fieldMap.put("c_id", coach.getC_id());
+		
+		for (String field : fieldMap.keySet()) {
+			if(field.equals("c_id")) {
+				continue;
+			}
+			sql.append(field + " =?,");
+		}
+		
 		sql.append("c_modi_time = NOW() WHERE c_id = ?;");
 		try (
 				Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString())
 			) {
+				System.out.println(sql);
 				int position = 1;
 				for (Object value : fieldMap.values()) {
+					System.out.println(value);
 					if (value instanceof String) {
 						pstmt.setString(position, (String) value);
 					} else if (value instanceof Integer) {
@@ -165,7 +177,7 @@ public class CoachDaoImpl implements CoachDao {
 
 	@Override
 	public List<Coach> selectAll() {
-		String sql = "SELECT * FROM coach";
+		String sql = "SELECT * FROM coach order by c_sus desc";
 		List<Coach> list = new ArrayList<>();
 		
 		try (
@@ -188,7 +200,8 @@ public class CoachDaoImpl implements CoachDao {
 				coach.setC_intro(rs.getString("c_intro"));
 				coach.setC_sus(rs.getBoolean("c_sus"));
 				coach.setC_pic(rs.getBytes("c_pic"));
-				coach.setBh_id(rs.getInt("bh_id"));
+				//coach.setBh_id(rs.getInt("bh_id"));
+				coach.setBt_name(rs.getString("bt_name"));
 				coach.setC_add_time(rs.getTimestamp("c_add_time"));
 				coach.setC_modi_time(rs.getTimestamp("c_modi_time"));
 				

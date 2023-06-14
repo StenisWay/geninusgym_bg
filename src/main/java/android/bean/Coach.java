@@ -21,8 +21,10 @@ public class Coach implements Serializable{
 	private String c_email;
 	private String c_intro;
 	private Boolean c_sus;
+	private String c_picBase64;
 	private byte[] c_pic;
 	private Integer bh_id;
+	private String bt_name;
 	
 	public Integer getBh_id() {
 		return bh_id;
@@ -120,5 +122,19 @@ public class Coach implements Serializable{
 	public void setC_pic(byte[] c_pic) {
 		this.c_pic = c_pic;
 	}
+	public String getC_picBase64() {
+		return c_picBase64;
+	}
+	public void setC_picBase64(String c_picBase64) {
+		this.c_picBase64 = c_picBase64;
+	}
+	public String getBt_name() {
+		return bt_name;
+	}
+	public void setBt_name(String bt_name) {
+		this.bt_name = bt_name;
+	}
+	
+	
 
 }
