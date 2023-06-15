@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 
 import Dao.NotifyDao;
 import Dao.SportBigIdDao;
+import DaoImpl.NotifyDaoImpl;
 import DaoImpl.SportBigIdDaoImpl;
 import android.bean.SportBigId;
 

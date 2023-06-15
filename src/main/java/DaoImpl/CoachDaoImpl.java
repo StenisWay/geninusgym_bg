@@ -50,7 +50,7 @@ public class CoachDaoImpl implements CoachDao {
 				+ "c_sus," //是否停權 c_sus
 				+ "c_pic," //大頭貼 c_pic
 		//		+ "bh_id" //分店 ID bh_id
-				+ "bt_name,"  //分店名稱 bt_name
+				+ "bh_name,"  //分店名稱 bh_name
 				+ "c_add_time" //新增時間 c_add_time
 				+ ")VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?,NOW())";
 
@@ -68,7 +68,7 @@ public class CoachDaoImpl implements CoachDao {
 			pstmt.setString(11, coach.getC_intro());
 		//	pstmt.setBoolean(12, coach.getC_sus());
 			pstmt.setBytes(12, coach.getC_pic());
-			pstmt.setString(13, coach.getBt_name());
+			pstmt.setString(13, coach.getBh_name());
 
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -134,8 +134,8 @@ public class CoachDaoImpl implements CoachDao {
 		if (coach.getBh_id() != null)  {
 			fieldMap.put("bh_id", coach.getBh_id());
 		}
-		if(coach.getBt_name() != null) {
-			fieldMap.put("bt_name", coach.getBt_name());
+		if(coach.getBh_name() != null) {
+			fieldMap.put("bh_name", coach.getBh_name());
 		}
 		fieldMap.put("c_id", coach.getC_id());
 		
@@ -201,7 +201,7 @@ public class CoachDaoImpl implements CoachDao {
 				coach.setC_sus(rs.getBoolean("c_sus"));
 				coach.setC_pic(rs.getBytes("c_pic"));
 				//coach.setBh_id(rs.getInt("bh_id"));
-				coach.setBt_name(rs.getString("bt_name"));
+				coach.setBh_name(rs.getString("bh_name"));
 				coach.setC_add_time(rs.getTimestamp("c_add_time"));
 				coach.setC_modi_time(rs.getTimestamp("c_modi_time"));
 				
