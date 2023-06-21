@@ -26,7 +26,15 @@ public class ClassInfo implements Serializable{
 	private Integer sc_id;
 	private Boolean ci_avail;  //新增
 	private String bh_name;   //新增
-	
+	@Override
+	public String toString() {
+	return "ClassInfo [ci_id=" + ci_id + ", ci_name=" + ci_name + ", ci_start_time=" + ci_start_time
+	+ ", ci_ed_time=" + ci_ed_time + ", ci_place=" + ci_place + ", ci_cost=" + ci_cost + ", c_id=" + c_id
+	+ ", ci_date=" + ci_date + ", ci_text=" + ci_text + ", ci_limit=" + ci_limit + ", ci_add_time="
+	+ ci_add_time + ", bh_id=" + bh_id + ", ci_regi_time=" + ci_regi_time + ", ci_regi_ed_time="
+	+ ci_regi_ed_time + ", b_id=" + b_id + ", sc_id=" + sc_id + ", ci_avail=" + ci_avail + ", bh_name="
+	+ bh_name + "]";
+	}
 	public Integer getCi_id() {
 		return ci_id;
 	}

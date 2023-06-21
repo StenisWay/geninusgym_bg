@@ -14,33 +14,34 @@ import java.util.Map;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.print.attribute.standard.PresentationDirection;
 
 import com.zaxxer.hikari.HikariDataSource;
 
 import Dao.ClassDao;
+import Dao.CoachDao;
 import android.bean.ClassInfo;
 
 public class ClassDaoImpl implements ClassDao {
 	private HikariDataSource ds;
-	public ClassDaoImpl(){
+
+	public ClassDaoImpl() {
 		try {
 			ds = (HikariDataSource) new InitialContext().lookup(route);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public List<ClassInfo> selectAll() {
 		String sql = "SELECT * FROM class_info order by ci_avail desc";
 		List<ClassInfo> list = new ArrayList<>();
-		
-		try (
-				Connection conn = ds.getConnection();
+
+		try (Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
-				ResultSet rs = pstmt.executeQuery();
-		){
-			while(rs.next()) {
+				ResultSet rs = pstmt.executeQuery();) {
+			while (rs.next()) {
 				ClassInfo classInfo = new ClassInfo();
 				classInfo.setCi_id(rs.getInt("ci_id"));
 				classInfo.setCi_name(rs.getString("ci_name"));
@@ -56,9 +57,8 @@ public class ClassDaoImpl implements ClassDao {
 				classInfo.setCi_regi_ed_time(rs.getTimestamp("ci_regi_ed_time"));
 				classInfo.setB_id(rs.getString("b_id"));
 				classInfo.setSc_id(rs.getInt("sc_id"));
-			//	classInfo.setBh_name(rs.getString("bh_name"));
-				
-				
+				// classInfo.setBh_name(rs.getString("bh_name"));
+
 				list.add(classInfo);
 			}
 			return list;
@@ -69,26 +69,23 @@ public class ClassDaoImpl implements ClassDao {
 		return null;
 	}
 
-	
 	@Override
 	public int insert(ClassInfo classInfo) {
-		String sql = "INSERT INTO class_info ("
-				+ "ci_name," //課程名稱
-				+ "ci_start_time," //課程開始時間
-				+ "ci_ed_time," //課程結束時間
-				+ "ci_place," //上課地點
-				+ "ci_cost," //點數
-				+ "c_id," //教練 c_id
-				+ "ci_text," //課程介紹
-				+ "ci_limit," //人數上限
-				+ "bh_id,"  //分店ID 
-				+ "ci_regi_time," //報名時間
-				+ "ci_regi_ed_time," //截止時間
-				+ "b_id,"  //修改人ID
-				+ "sc_id," //運動種類ID
-				+ "ci_avail,"
-				+ "ci_add_time" //新增時間 c_add_time
-				+ ")VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
+		String sql = "INSERT INTO class_info (" + "ci_name," // 課程名稱
+				+ "ci_start_time," // 課程開始時間
+				+ "ci_ed_time," // 課程結束時間
+				+ "ci_place," // 上課地點
+				+ "ci_cost," // 點數
+				+ "c_id," // 教練 c_id
+				+ "ci_text," // 課程介紹
+				+ "ci_limit," // 人數上限
+				+ "bh_id," // 分店ID
+				+ "ci_regi_time," // 報名時間
+				+ "ci_regi_ed_time," // 截止時間
+				+ "b_id," // 修改人ID
+				+ "sc_id," // 運動種類ID
+				+ "ci_avail," + "ci_add_time" // 新增時間 c_add_time
+				+ ")VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,1,NOW())";
 
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, classInfo.getCi_name());
@@ -104,7 +101,6 @@ public class ClassDaoImpl implements ClassDao {
 			pstmt.setTimestamp(11, classInfo.getCi_regi_ed_time());
 			pstmt.setString(12, classInfo.getB_id());
 			pstmt.setInt(13, classInfo.getSc_id());
-			pstmt.setBoolean(14,classInfo.getCi_avail());
 
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -113,7 +109,6 @@ public class ClassDaoImpl implements ClassDao {
 		return -1;
 	}
 
-	
 	@Override
 	public int updateById(ClassInfo classInfo) {
 		StringBuilder sql = new StringBuilder("UPDATE class_info SET ");
@@ -154,53 +149,49 @@ public class ClassDaoImpl implements ClassDao {
 		if (classInfo.getCi_regi_time() != null) {
 			fieldMap.put("ci_regi_time", classInfo.getCi_regi_time());
 		}
-		if (classInfo.getCi_regi_ed_time() != null)  {
+		if (classInfo.getCi_regi_ed_time() != null) {
 			fieldMap.put("ci_regi_ed_time", classInfo.getCi_regi_ed_time());
 		}
-		if(classInfo.getSc_id() != null) {
+		if (classInfo.getSc_id() != null) {
 			fieldMap.put("sc_id", classInfo.getSc_id());
 		}
 		fieldMap.put("ci_id", classInfo.getCi_id());
-		
+
 		for (String field : fieldMap.keySet()) {
-			if(field.equals("ci_id")) {
+			if (field.equals("ci_id")) {
 				continue;
 			}
 			sql.append(field + " =?,");
-			
+
 		}
-		
+
 		sql.append("ci_modi_time = NOW() WHERE ci_id = ?;");
-		try (
-				Connection conn = ds.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(sql.toString())
-			) {
-				System.out.println(sql);
-				int position = 1;
-				for (Object value : fieldMap.values()) {
-					System.out.println(value);
-					if (value instanceof String) {
-						pstmt.setString(position, (String) value);
-					} else if (value instanceof Integer) {
-						pstmt.setInt(position, (Integer) value);
-					} else if (value instanceof Timestamp) {
-						pstmt.setTimestamp(position, (Timestamp) value);
-					} else if (value instanceof byte[]) {
-						pstmt.setBytes(position, (byte[]) value);
-					} else if (value instanceof Boolean) {
-						pstmt.setBoolean(position, (Boolean) value);
-					}
-					position++;
+		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+			System.out.println(sql);
+			int position = 1;
+			for (Object value : fieldMap.values()) {
+				System.out.println(value);
+				if (value instanceof String) {
+					pstmt.setString(position, (String) value);
+				} else if (value instanceof Integer) {
+					pstmt.setInt(position, (Integer) value);
+				} else if (value instanceof Timestamp) {
+					pstmt.setTimestamp(position, (Timestamp) value);
+				} else if (value instanceof byte[]) {
+					pstmt.setBytes(position, (byte[]) value);
+				} else if (value instanceof Boolean) {
+					pstmt.setBoolean(position, (Boolean) value);
 				}
-				
-				return pstmt.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
+				position++;
 			}
-			return -1;
+
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
-	
 	@Override
 	public int unRegisterById(ClassInfo classInfo) {
 		String sql = "UPDATE class_info SET ci_avail = ?, ci_modi_time = now() WHERE (ci_id = ?);";
@@ -214,5 +205,43 @@ public class ClassDaoImpl implements ClassDao {
 		}
 		return -1;
 	}
-	
+
+	@Override
+	public List<ClassInfo> selectByCoach(String c_id) {
+		String sql = "SELECT * FROM class_info WHERE c_id =?";
+		List<ClassInfo> list = new ArrayList<>();
+		try (
+				Connection conn = ds.getConnection(); 
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				) {
+			pstmt.setString(1, c_id);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ClassInfo classInfo = new ClassInfo();
+				classInfo.setCi_id(rs.getInt("ci_id"));
+				classInfo.setCi_name(rs.getString("ci_name"));
+				classInfo.setCi_start_time(rs.getTimestamp("ci_start_time"));
+				classInfo.setCi_ed_time (rs.getTimestamp("ci_ed_time"));
+				classInfo.setC_id(rs.getString("c_id"));
+				classInfo.setCi_place(rs.getString("ci_place"));
+				classInfo.setCi_cost(rs.getInt("ci_cost"));
+				classInfo.setCi_date(rs.getTimestamp("ci_date"));
+				classInfo.setCi_text(rs.getString("ci_text"));
+				classInfo.setCi_limit(rs.getInt("ci_limit"));
+				classInfo.setCi_add_time(rs.getTimestamp("ci_add_time"));
+				classInfo.setBh_id(rs.getInt("bh_id"));
+				classInfo.setCi_regi_time(rs.getTimestamp("ci_regi_time"));
+				classInfo.setCi_regi_ed_time (rs.getTimestamp("ci_regi_ed_time"));
+				classInfo.setB_id(rs.getString("b_id"));
+				
+				list.add(classInfo);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 }
