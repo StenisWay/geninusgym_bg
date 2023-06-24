@@ -16,12 +16,20 @@ public class ClassInfo implements Serializable{
 	private Integer ci_cost;
 	private Timestamp ci_date;
 	private String ci_text;
+	private int sc_id;
 	private Integer ci_limit;
 	private Timestamp ci_add_time;
 	private Integer bh_id;
 	private Timestamp ci_regi_time;
 	private Timestamp ci_regi_ed_time;
 	private String b_id;
+	
+	public int getSc_id() {
+		return sc_id;
+	}
+	public void setSc_id(int sc_id) {
+		this.sc_id = sc_id;
+	}
 	
 	public Integer getCi_id() {
 		return ci_id;
