@@ -1,4 +1,4 @@
-package brian_background.impl;
+package DaoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +10,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import Dao.BranchDao;
 import android.bean.Branch;
-import brian_background.dao.BranchDao;
 
 public class BranchDaoImpl implements BranchDao{
 	
@@ -34,7 +34,7 @@ public class BranchDaoImpl implements BranchDao{
 				while(resultSet.next()) {
 				    Branch branch = new Branch();
 				    branch.setBh_id(resultSet.getInt("bh_id"));
-		            branch.setBt_name(resultSet.getString("bt_name"));
+		            branch.setBh_name(resultSet.getString("bt_name"));
 		            branch.setBh_addr(resultSet.getString("bh_addr"));
 		            branch.setBh_cell(resultSet.getString("bh_cell"));
 		            branch.setBh_start_time(resultSet.getString("bh_start_time"));

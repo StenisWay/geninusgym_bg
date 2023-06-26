@@ -1,4 +1,4 @@
-package brian_background.dao;
+package Dao;
 
 import java.util.List;
 

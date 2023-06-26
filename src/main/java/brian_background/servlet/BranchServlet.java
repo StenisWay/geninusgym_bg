@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import Dao.BranchDao;
+import DaoImpl.BranchDaoImpl;
 import android.bean.Branch;
-import brian_background.dao.BranchDao;
-import brian_background.impl.BranchDaoImpl;
 
 @WebServlet("/member/branch")
 public class BranchServlet extends HttpServlet{

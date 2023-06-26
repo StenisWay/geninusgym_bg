@@ -1,4 +1,4 @@
-package brian_background.impl;
+package DaoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import brian_background.dao.ClassInfoDao;
+import Dao.ClassInfoDao;
 import brian_background.model.ClassInfoReturn;
 
 public class ClassInfoImpl implements ClassInfoDao{

@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import brian_background.dao.ClassInfoDao;
-import brian_background.impl.ClassInfoImpl;
+
+import Dao.ClassInfoDao;
+import DaoImpl.ClassInfoImpl;
 import brian_background.model.ClassInfoReturn;
 
 @WebServlet("/member/classinfo")

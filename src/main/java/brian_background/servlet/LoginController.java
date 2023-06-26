@@ -14,10 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import android.bean.Member;
-import brian_background.dao.Login_out_Dao;
-import brian_background.impl.Login_out_DaoImpl;
+import brian_background.service.Login_out_Dao;
+import brian_background.serviceimpl.Login_out_DaoImpl;
 
-@WebServlet("login")
+@WebServlet("/login/*")
 public class LoginController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private Login_out_Dao service;
@@ -40,7 +40,7 @@ public class LoginController extends HttpServlet{
 				req.changeSessionId();
 			}
 			req.getSession().setAttribute("member", member);
-			respBody.addProperty("message", "登入成功");
+			respBody.addProperty("message", "success");
 		}else {
 			respBody.addProperty("message", "使用者名稱或密碼錯誤");
 		}
@@ -48,5 +48,4 @@ public class LoginController extends HttpServlet{
 		
 	}
 
-	
 }
