@@ -27,7 +27,7 @@ public class ClassInfoImpl implements ClassInfoDao{
 	
 	@Override
 	public List<ClassInfoReturn> selectAll() {
-		String sql = "select * from class_infpo";
+		String sql = "select * from class_info";
 		try (Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet resultSet = pstmt.executeQuery()) {

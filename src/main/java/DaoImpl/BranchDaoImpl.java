@@ -34,7 +34,7 @@ public class BranchDaoImpl implements BranchDao{
 				while(resultSet.next()) {
 				    Branch branch = new Branch();
 				    branch.setBh_id(resultSet.getInt("bh_id"));
-		            branch.setBh_name(resultSet.getString("bt_name"));
+		            branch.setBh_name(resultSet.getString("bh_name"));
 		            branch.setBh_addr(resultSet.getString("bh_addr"));
 		            branch.setBh_cell(resultSet.getString("bh_cell"));
 		            branch.setBh_start_time(resultSet.getString("bh_start_time"));
