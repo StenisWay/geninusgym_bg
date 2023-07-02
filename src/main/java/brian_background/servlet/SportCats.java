@@ -11,24 +11,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import Dao.BranchDao;
-import DaoImpl.BranchDaoImpl;
-import android.bean.Branch;
+import Dao.SportCatDao;
+import DaoImpl.SportCatDaoImpl;
+import android.bean.SportCat;
+import brian_background.model.ClassInfoReturn;
 
-@WebServlet("/member/branch/*")
-public class BranchServlet extends HttpServlet{
-	private static final long serialVersionUID = 1L;
-	private BranchDao branchDao;
+@WebServlet("/sportcats")
+public class SportCats extends HttpServlet{
+	
+	private SportCatDao service = null;
 	
 	@Override
 	public void init() throws ServletException {
-		branchDao = new BranchDaoImpl();
+		service = new SportCatDaoImpl();
 	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Gson gson = new Gson();
-		List<Branch> branchs = branchDao.selectAll();
-		resp.getWriter().write(gson.toJson(branchs));
+		List<SportCat> sportCats = service.selectAll();
+		resp.getWriter().write(gson.toJson(sportCats));
 	}
 
 }

@@ -28,6 +28,7 @@ public class Login_out_DaoImpl implements Login_out_Dao{
 		if (member.getM_pwd() == null) {
 			return null;
 		}
+		System.out.println("登入成功");
 		return new MemberDaoImpl().selelctByUsernameAndPassword(member);
 	}
 
