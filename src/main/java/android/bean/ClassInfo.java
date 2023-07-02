@@ -136,6 +136,4 @@ public class ClassInfo implements Serializable{
 		this.bh_name = bh_name;
 	}
 
-	
-	
 }

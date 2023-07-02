@@ -10,6 +10,7 @@ public class Member implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String m_id;
+    private String m_token;
 	private String m_pwd;
 	private String m_name;
 	private Integer m_gen;

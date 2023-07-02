@@ -220,5 +220,39 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public Member selelctByUsernameAndPassword(Member member) {
+		String sql = "select * from MEMBER where m_id = ? and m_pwd = ?";
+		try (Connection conn = ds.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql);
+					 
+				) {
+			pstmt.setString(1, member.getM_id());
+			pstmt.setString(2, member.getM_pwd());
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					member = new Member();
+					member.setM_name(rs.getString("m_name"));
+					member.setM_gen(rs.getInt("m_gen"));
+					member.setM_cell(rs.getString("m_cell"));
+					member.setM_twid(rs.getString("m_twid"));
+					member.setM_addr(rs.getString("m_addr"));
+					member.setM_ed_date(rs.getTimestamp("m_ed_date"));
+					member.setB_id(rs.getString("b_id"));
+					member.setM_email(rs.getString("m_email"));
+					member.setM_pic(rs.getBytes("m_pic"));
+					member.setM_sus(rs.getBoolean("m_sus"));
+					return member;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 
 }

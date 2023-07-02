@@ -13,4 +13,6 @@ public interface MemberDao {
 	 List<Member> selectAll();
 	 
 	 List<Member> selectIdName();
+	 
+	 Member selelctByUsernameAndPassword(Member member);
 }
