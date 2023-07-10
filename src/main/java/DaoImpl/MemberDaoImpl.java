@@ -233,6 +233,7 @@ public class MemberDaoImpl implements MemberDao {
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					member = new Member();
+					member.setM_id(rs.getString("m_id"));
 					member.setM_name(rs.getString("m_name"));
 					member.setM_gen(rs.getInt("m_gen"));
 					member.setM_cell(rs.getString("m_cell"));

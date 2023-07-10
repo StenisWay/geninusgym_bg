@@ -57,7 +57,7 @@ public class ClassInfoImpl implements ClassInfoDao{
 		
 		
 	private String timeStampToTimeString(Timestamp timestamp) {
-       DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+       DateFormat sdf = new SimpleDateFormat("HH:mm");
        return sdf.format(timestamp);
 	}
 	

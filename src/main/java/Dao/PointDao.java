@@ -10,4 +10,8 @@ public interface PointDao {
 	List<Point> selectAll();
 
 	Point selectById(Point point);
+	
+	Boolean updateById(String m_id, Integer transactionPoint);
+	
+	Integer selectPointById(String m_id);
 }
